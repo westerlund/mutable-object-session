@@ -9,7 +9,7 @@
 #import "WESObject.h"
 
 @interface WESObject () {
-    @private
+@private
     NSString *_str;
 }
 
@@ -55,10 +55,29 @@
 
 @end
 
+@interface WESMutableObject () {
+@private
+    NSString *_str;
+}
+
+@end
+
 @implementation WESMutableObject
 
 - (void)setString:(NSString *)string {
-    [self setValue:string forKey:@"_str"]; // shhh, don't tell anyone...
+    _str = string;
+}
+
+- (NSString *)string {
+    return _str;
+}
+
+- (id)copyWithZone:(NSZone *)zone {
+    WESObject *copy = [[[self class] allocWithZone:zone] init];
+    if ( copy ) {
+        [copy setValue:_str forKey:@"_str"];
+    }
+    return copy;
 }
 
 @end
